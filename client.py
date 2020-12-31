@@ -7,11 +7,12 @@ import ctypes
 DestinationPort = 13117
 bufferSize = 1024
 port=2081
-host ='127.0.0.1'
+host ='local host'
 secondsSleep = 10
 
 def RecievePacket():
-    sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM, socket.IPPROTO_UDP) # UDP 
+    # UDP connection
+    sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM, socket.IPPROTO_UDP)
     sock.setsockopt(socket.SOL_SOCKET, socket.SO_BROADCAST, 1)
 
     print('Client started, listening for offer requests..')
