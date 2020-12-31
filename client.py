@@ -23,7 +23,7 @@ def RecievePacket():
          data, addr = sock.recvfrom(bufferSize)
          break
         except:
-         print("error")
+         print("error in receieving data from the client")
     print('Received offer from 2081,attempting to connect...%s ' %data)
     sock.close
 
@@ -32,7 +32,7 @@ def SendGruopName(sockTCP):
     try:
         sockTCP.send(GroupName.encode('ascii'))
     except:
-        print("problem")
+        print("An exception occurred while sending message to server")
 
 def main():
   while True:
@@ -51,7 +51,7 @@ def main():
             print('received "%s"' % data.decode('assci'))
             break
         except:
-          print('error')  #connection.close?
+          print('error in receieving data from the client')  #connection.close?
 
     i=0
     while i<10:
@@ -59,7 +59,7 @@ def main():
         try:
             sockTCP.send(click.encode('ascii'))
         except:
-            print("problem")
+            print("An exception occurred while sending message to client")
         i+=1
    
     print("Server disconnected, listening for offer requests...")

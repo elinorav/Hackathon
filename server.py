@@ -17,7 +17,7 @@ Group1 = set()
 Group2 = set()
 couunter1 =set()
 couunter2 =set()
-localIP     = '127.0.0.1'
+localIP     = 'local host'
 DestinationPort = 2081
 Port = 13117
 bufferSize = 1024
@@ -44,7 +44,7 @@ def TCPFunc(Clients,Group1,Group2):
     sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     server_address = ('localhost', DestinationPort)
     sock.bind(server_address)
-    sock.listen(10)
+    sock.listen(tenSecondsSleep)
 
     while True:
         connection, client_address = sock.accept()
@@ -62,12 +62,12 @@ def TCPFunc(Clients,Group1,Group2):
                   with clients_lock:
                     Clients[connection]=Rand
         except:
-            print('error')  #connection.close?
+            print('error in receieving data from the client')
 
 def CounterTav1(connection, Counter):
     i=0
     while i<10:
-       time.sleep(1)
+       time.sleep(oneSecondSleep)
        try:
             data = connection.recv(bufferSize)
             if not data:
@@ -76,7 +76,7 @@ def CounterTav1(connection, Counter):
               with Counter1Lock:
                 Counter.add(len(data))  
        except:
-         print('problem')
+         print('error in receieving data from the client')
 
 def CounterTav2(connection, Counter):
     i=0
@@ -90,7 +90,7 @@ def CounterTav2(connection, Counter):
               with Counter1Lock:
                 Counter.add(len(data))  
        except:
-         print('problem')
+         print('error in receieving data from the client')
 
 def CreateMesName(names1,names2):
   for n in Group1:
@@ -141,18 +141,8 @@ def main():
     th.append(Thread(target=UDPFunc, args = ()).start())
     th.append(Thread(target=TCPFunc, args = (Clients,Group1,Group2)).start())
 
-    time.sleep(10)
+    time.sleep(tenSecondsSleep)
     print("arrived")
-    Group1.add("Elinor")
-    Group1.add("Rachil")
-    Group1.add("Nofet")
-    Group2.add("Strange peaople")
-    couunter1.add(3)
-    couunter1.add(4)
-    couunter1.add(5)
-    couunter2.add(3)
-    couunter2.add(3)
-    
     names1=""
     names2=""
     #send division of groups
@@ -161,7 +151,7 @@ def main():
        try:
           c[0].send(mes.encode('ascii'))
        except:
-          print("An exception occurred")
+          print("An exception occurred while sending message to client")
     
     #start the game
     for c in Clients:
@@ -178,7 +168,7 @@ def main():
           c[0].send(mes.encode('ascii'))
           c[0].close()
        except:
-          print("An exception occurred")
+          print("An exception occurred while sending message to client")
     
     print("Game over, sending out offer requests...")
     
